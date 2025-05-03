@@ -1,0 +1,75 @@
+{% include "header.html" %}
+<!-- Page Header-->
+<header
+  class="masthead"
+  style="background-image: url('../static/assets/img/dji_fly.jpg')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="site-heading">
+          <h1>Weekly Blog</h1>
+          <span class="subheading">A collection of this week's best articles</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content-->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      <!-- Flash Messages -->
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div
+        class="alert alert-{{ category }} alert-dismissible fade show"
+        role="alert"
+      >
+        {{ message }}
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="alert"
+          aria-label="Close"
+        ></button>
+      </div>
+      {% endfor %} {% endif %} {% endwith %} {% for article in articles %}
+      <!-- Post preview-->
+      <div class="post-preview">
+        <a href="{{ url_for('show_post', index=loop.index0) }}">
+          <h2 class="post-title">{{ article.title }}</h2>
+          <h3 class="post-subtitle">Views: {{ article.views }}</h3>
+        </a>
+        <p class="post-meta">
+          Posted by
+          <a href="#!">{{ article.author.name }}</a>
+          on {{ current_month }} {{ rand_day }}th, {{current_year}} {% if
+          current_user.is_authenticated and (current_user.id ==
+          article.author.id or current_user.roles == 'admin') %}
+          <a href="{{ url_for('delete_post', post_id=article.id) }}">␡</a>
+          {% endif %}
+        </p>
+      </div>
+      <!-- Divider-->
+      <hr class="my-4" />
+      {% endfor %}
+      <!-- Pager-->
+      <div class="d-flex justify-content-between mb-4">
+        {% if current_user.is_authenticated and current_user.roles == 'admin' %}
+        <a
+          class="btn btn-primary text-uppercase"
+          href="{{ url_for('create_new_post') }}"
+          >Create New Post</a
+        >
+        {% endif %}
+        <a
+          class="btn btn-primary text-uppercase"
+          href="{{ url_for('show_old_home')  }}"
+          >Older Posts →</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+{% include "footer.html" %}
