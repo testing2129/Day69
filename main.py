@@ -22,10 +22,6 @@ from flask_login import (
 from sqlalchemy.orm import relationship
 from functools import wraps
 
-recipient = "gabriel.janvrin@gmail.com"
-sender = "philippe.janvrin@laposte.net"
-password = "Antosia,071116"
-
 
 year = dt.datetime.now().year
 month = dt.datetime.now().strftime("%B")
